@@ -37,7 +37,7 @@ void com_thread(){
         if(pc.readable()){
             led2 = !led2;
             while(pc.readable()){
-				/* Send received bytes back to host */
+                /* Send received bytes back to host */
                 pc._putc(pc._getc());
             }
         }
