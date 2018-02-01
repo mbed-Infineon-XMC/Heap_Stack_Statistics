@@ -31,7 +31,7 @@ mbed import https://github.com/mbed-Infineon-XMC/USBSerial-Example.git
 Example:
 ```
 #GCC_ARM_PATH = "home/bin/arm_gcc_toolchain/gcc-arm-none-eabi-5_4-2016q2/arm-none-eabi/bin"
-``
+```
 
 ## Step 4: Compile project
 
