@@ -31,12 +31,13 @@ Thread thread;
  */
 void com_thread(){
 
-    //
+    /* Check every 100ms if data is availabe */
     while(1){
         wait(0.1);
         if(pc.readable()){
             led2 = !led2;
             while(pc.readable()){
+				/* Send received bytes back to host */
                 pc._putc(pc._getc());
             }
         }
