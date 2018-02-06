@@ -17,30 +17,54 @@
 /******************************************************************* Includes */
 #include "mbed.h"
 #include "USBSerial.h"
+#include "mbed_stats.h"
 
 /******************************************************************** Globals */
 DigitalOut led1(LED1);
-DigitalOut led2(LED2);
-USBSerial pc;
-Thread thread;
+Thread thread1;
+Thread thread2;
 
 /****************************************************************** Functions */
 
 /*
- * Communication thread
+ * Thread allocates periodically memory.
  */
-void com_thread(){
+void mem_leak_thread(){
 
-    /* Check every 100ms if data is availabe */
     while(1){
-        wait(0.1);
-        if(pc.readable()){
-            led2 = !led2;
-            while(pc.readable()){
-                /* Send received bytes back to host */
-                pc._putc(pc._getc());
-            }
+        wait(1);
+        /* Allocate 1000 byte */
+        //void *allocation = malloc(1000);
+        //memset(allocation, 0, 1000);
+    }
+}
+
+/*
+ * Memory Statistics Thread
+ */
+void statistics_thread(){
+
+    mbed_stats_heap_t heap_stats;
+    int cnt;
+
+    while(1){
+        wait(3);
+        //NVIC_EnableIRQ(PMU0_0_IRQn);
+        //NVIC_SetPendingIRQ(PMU0_0_IRQn);
+        /* Get heap statistics */
+        mbed_stats_heap_get(&heap_stats);
+        printf("\nCurrent heap: %lu\r\n", heap_stats.current_size);
+        printf("Max heap size: %lu\r\n", heap_stats.max_size);
+
+        /* Get stack size of each thread */
+        cnt = osThreadGetCount();
+        mbed_stats_stack_t *stats = (mbed_stats_stack_t*) malloc(cnt * sizeof(mbed_stats_stack_t));
+        cnt = mbed_stats_stack_get_each(stats, cnt);
+        for (int i = 0; i < cnt; i++) {
+            printf("Thread: 0x%X, Stack size: %u, Max stack: %u\r\n", stats[i].thread_id, stats[i].reserved_size, stats[i].max_size);
         }
+        free(stats);
+
     }
 }
 
@@ -49,9 +73,11 @@ void com_thread(){
  */
 int main() {
 
-    pc.printf("USBSerial Example\n");
-    /* Start com thread */
-    thread.start(com_thread);
+    printf("Heap Stack Statistics Example\n");
+    /* Start memory leak thread thread */
+    thread1.start(mem_leak_thread);
+    /* Start memory statistics thread */
+    thread2.start(statistics_thread);
 
     /* Toggle LED1  */
     while (1) {
