@@ -16,7 +16,6 @@
 
 /******************************************************************* Includes */
 #include "mbed.h"
-#include "USBSerial.h"
 #include "mbed_stats.h"
 
 /******************************************************************** Globals */
@@ -24,18 +23,31 @@ DigitalOut led1(LED1);
 Thread thread1;
 Thread thread2;
 
+/******************************************************************** Defines */
+#define STACK_ERROR
+
 /****************************************************************** Functions */
 
 /*
  * Thread allocates periodically memory.
  */
-void mem_leak_thread(){
+void error_thread(){
 
     while(1){
-        wait(1);
-        /* Allocate 1000 byte */
-        //void *allocation = malloc(1000);
-        //memset(allocation, 0, 1000);
+#ifdef STACK_ERROR
+        static int i = 500;
+        wait(4);
+        /* Allocate bytes from user thread stack */
+        char test_array[i+=500];
+        for (size_t ix = 0; ix < sizeof(test_array); ix++) test_array[ix] = ix;
+#else //HEAP ERROR
+        wait(2);
+        /* Allocate 3000 byte from Heap */
+        void *allocation = malloc(3000);
+        if(allocation == NULL){
+            printf("System can not allocate block of memory!\n");
+        }
+#endif
     }
 }
 
@@ -49,8 +61,6 @@ void statistics_thread(){
 
     while(1){
         wait(3);
-        //NVIC_EnableIRQ(PMU0_0_IRQn);
-        //NVIC_SetPendingIRQ(PMU0_0_IRQn);
         /* Get heap statistics */
         mbed_stats_heap_get(&heap_stats);
         printf("\nCurrent heap: %lu\r\n", heap_stats.current_size);
@@ -64,7 +74,6 @@ void statistics_thread(){
             printf("Thread: 0x%X, Stack size: %u, Max stack: %u\r\n", stats[i].thread_id, stats[i].reserved_size, stats[i].max_size);
         }
         free(stats);
-
     }
 }
 
@@ -75,13 +84,13 @@ int main() {
 
     printf("Heap Stack Statistics Example\n");
     /* Start memory leak thread thread */
-    thread1.start(mem_leak_thread);
+    thread1.start(error_thread);
     /* Start memory statistics thread */
     thread2.start(statistics_thread);
 
     /* Toggle LED1  */
     while (1) {
-        wait(0.5);
+        wait(1);
         led1 = !led1;
     }
 }
