@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+// Compile with symbols
+// -DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1
+
 /******************************************************************* Includes */
 #include "mbed.h"
 #include "mbed_stats.h"
