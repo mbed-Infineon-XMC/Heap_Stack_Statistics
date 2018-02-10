@@ -11,6 +11,15 @@ Read more about runtime statistics [here.](https://docs.mbed.com/docs/mbed-os-ha
 
 You can find information about the mbed-os memory model [here.](https://os.mbed.com/docs/v5.7/reference/memory.html)<br /><br />
 
+Example Description:
+* Stack overflow
+Set the following define to simulate an stack overflow:<br />
+`#define STACK_ERROR`
+
+* Heap overflow
+Remove the following define to simulate an heap overflow:<br />
+`//#define STACK_ERROR`
+
 ## Step 1: Download mbed CLI
 
 * [Mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/dev_tools/cli/#installing-mbed-cli) - Download and install mbed CLI.
