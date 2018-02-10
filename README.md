@@ -3,6 +3,9 @@
 Heap and stack overflows are a common problem when developping embedded system sofware with an RTOS.
 The following example shows how you can monitor heap and stack size during the runtime of the system.
 
+Add the following compile flags to enable heap and stack statistics to your debug build.
+'-DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1'
+
 ## Step 1: Download mbed CLI
 
 * [Mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/dev_tools/cli/#installing-mbed-cli) - Download and install mbed CLI.
