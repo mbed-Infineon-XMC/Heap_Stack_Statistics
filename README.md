@@ -1,15 +1,7 @@
-# USBSerial Example
+# Heap Stack Statistics Ecample
 
-Simple example how you can setup a USB CDC device acting as a virtual serial port.
-In this example all characters send by the host are echoed back by the microcontroller.
-Open the serial terminal with the following settings:
- - 115200 baud rate
- - 8 data bits
- - No parity
- - One stop bit
- - No flow control
- 
- * When running under Windows please install the Signed Driver (.INF file) located in the driver folder into this repo.
+Heap and stack overflows are a common problem when developping embedded system sofware with an RTOS.
+The following example shows how you can monitor heap and stack size during the runtime of the system.
 
 ## Step 1: Download mbed CLI
 
