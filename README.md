@@ -7,7 +7,7 @@ Add the following compile flags to enable heap and stack statistics to your debu
 `-DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1`
 
 NOTE: Connect the default UART to get kernel messages. (Default: TX=P0_5; RX=P0_4 9600 8N1)<br />
-Read more about runtime statistics [here.](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/advanced/runtime_stats/)<br /><br />
+Read more about runtime statistics [here.](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/advanced/runtime_stats/)<br />
 
 You can find information about the mbed-os memory model [here.](https://os.mbed.com/docs/v5.7/reference/memory.html)<br /><br />
 
@@ -15,12 +15,12 @@ You can find information about the mbed-os memory model [here.](https://os.mbed.
 
 * [Mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/dev_tools/cli/#installing-mbed-cli) - Download and install mbed CLI.
 
-## Step 2: Import USBSerial-Example project
+## Step 2: Import Heap_Stack_Statistics Example project
 
-Import USBSerial-Example project from GitHub.
+Import Heap_Stack_Statistics Example project from GitHub.
 
 ```
-mbed import https://github.com/mbed-Infineon-XMC/USBSerial-Example.git
+mbed import https://github.com/mbed-Infineon-XMC/Heap_Stack_Statistics.git
 ```
 
 ## Step 3: Install ARM GCC toolchain
@@ -37,7 +37,7 @@ Example:
 
 Navigate into the project folder and execute the following command:
 ```
-mbed compile -m XMC_4500_RELAX_KIT -t GCC_ARM
+mbed compile -m XMC_4500_RELAX_KIT -t GCC_ARM -DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1 --profile ${CWD}mbed-os/tools/profiles/debug.json
 ```
 mbed creates a BUID directory where you can find the executables (bin, elf, hex ...).
 
@@ -49,7 +49,7 @@ mbed creates a BUID directory where you can find the executables (bin, elf, hex 
 $ JLinkExe
 J-LINK> device xmc4500-1024
 J-LINK> h
-J-Link> loadfile USBSerial-Example.git.hex
+J-Link> loadfile Heap_Stack_Statistics.git.hex
 J-Link> r
 J-Link> g
 ```
