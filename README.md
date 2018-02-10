@@ -4,7 +4,7 @@ Heap and stack overflows are a common problem when developping embedded system s
 The following example shows how you can monitor heap and stack size during the runtime of the system.
 
 Add the following compile flags to enable heap and stack statistics to your debug build.
-'-DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1'
+`-DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1'`
 
 ## Step 1: Download mbed CLI
 
