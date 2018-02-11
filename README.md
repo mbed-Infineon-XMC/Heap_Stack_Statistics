@@ -1,26 +1,43 @@
-# USBSerial Example
+# Heap Stack Statistics Ecample
 
-Simple example how you can setup a USB CDC device acting as a virtual serial port.
-In this example all characters send by the host are echoed back by the microcontroller.
-Open the serial terminal with the following settings:
- - 115200 baud rate
- - 8 data bits
- - No parity
- - One stop bit
- - No flow control
- 
- * When running under Windows please install the Signed Driver (.INF file) located in the driver folder into this repo.
+Heap and stack overflows are a common problem when developing  embedded system software with an RTOS.
+The following example shows how you can monitor heap and stack size during the runtime of the system.
+
+Add the following compile flags to enable heap and stack statistics to your debug build:<br />
+`-DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1`
+
+NOTE: Connect the default UART to get kernel messages. (Default: TX=P0_5; RX=P0_4 9600 8N1)<br />
+Read more about runtime statistics [here.](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/advanced/runtime_stats/)<br />
+
+You can find information about the mbed-os memory model [here.](https://os.mbed.com/docs/v5.7/reference/memory.html)<br /><br />
+
+Example Description:
+* Stack overflow<br />
+Set the following define to simulate an stack overflow:<br />
+`#define STACK_ERROR`<br />
+Every 4 seconds 500 bytes more are allocated from the task stack memory. Every Task has a default stack size from 4096 byte.
+If the task increase this value a kernel error message is printed over the STDIO UART. 
+If a runtime error occurs mbed-os enables the Light of Death to let you know that an error has occurred.
+![](https://github.com/hackdino/mbed_xmc_images/blob/master/stack_error.png)
+* Heap overflow<br />
+Remove the following define to simulate an heap overflow:<br />
+`//#define STACK_ERROR`<br />
+In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory available  malloc() returns a NULL pointer.
+![](https://github.com/hackdino/mbed_xmc_images/blob/master/heap_error.png)
+
+:information_source: You can change the default stack size, priority or task name as follows:<br />
+`Thread thread1(osPriorityNormal, 2048, NULL, "Error_Task");`
 
 ## Step 1: Download mbed CLI
 
 * [Mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/dev_tools/cli/#installing-mbed-cli) - Download and install mbed CLI.
 
-## Step 2: Import USBSerial-Example project
+## Step 2: Import Heap_Stack_Statistics Example project
 
-Import USBSerial-Example project from GitHub.
+Import Heap_Stack_Statistics Example project from GitHub.
 
 ```
-mbed import https://github.com/mbed-Infineon-XMC/USBSerial-Example.git
+mbed import https://github.com/mbed-Infineon-XMC/Heap_Stack_Statistics.git
 ```
 
 ## Step 3: Install ARM GCC toolchain
@@ -37,7 +54,7 @@ Example:
 
 Navigate into the project folder and execute the following command:
 ```
-mbed compile -m XMC_4500_RELAX_KIT -t GCC_ARM
+mbed compile -m XMC_4500_RELAX_KIT -t GCC_ARM -DMBED_HEAP_STATS_ENABLED=1 -DMBED_STACK_STATS_ENABLED=1 --profile ${CWD}mbed-os/tools/profiles/debug.json
 ```
 mbed creates a BUID directory where you can find the executables (bin, elf, hex ...).
 
@@ -49,7 +66,7 @@ mbed creates a BUID directory where you can find the executables (bin, elf, hex 
 $ JLinkExe
 J-LINK> device xmc4500-1024
 J-LINK> h
-J-Link> loadfile USBSerial-Example.git.hex
+J-Link> loadfile Heap_Stack_Statistics.git.hex
 J-Link> r
 J-Link> g
 ```
