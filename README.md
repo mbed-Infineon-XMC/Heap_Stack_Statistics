@@ -23,6 +23,9 @@ Remove the following define to simulate an heap overflow:<br />
 `//#define STACK_ERROR`<br />
 In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory available  malloc() returns a NULL pointer.
 
+:information_source: You can change the default stack size, priority or task name as follows:
+`Thread thread1(osPriorityNormal, 2048, NULL, "Error_Task");`
+
 ## Step 1: Download mbed CLI
 
 * [Mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/latest/dev_tools/cli/#installing-mbed-cli) - Download and install mbed CLI.
