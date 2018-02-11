@@ -18,10 +18,12 @@ Set the following define to simulate an stack overflow:<br />
 Every 4 seconds 500 bytes more are allocated from the task stack memory. Every Task has a default stack size from 4096 byte.
 If the task increase this value a kernel error message is printed over the STDIO UART. 
 If a runtime error occurs mbed-os enables the Light of Death to let you know that an error has occurred.
+![](https://github.com/hackdino/mbed_xmc_images/blob/master/stack_error.png)
 * Heap overflow<br />
 Remove the following define to simulate an heap overflow:<br />
 `//#define STACK_ERROR`<br />
 In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory available  malloc() returns a NULL pointer.
+![](https://github.com/hackdino/mbed_xmc_images/blob/master/heap_error.png)
 
 :information_source: You can change the default stack size, priority or task name as follows:<br />
 `Thread thread1(osPriorityNormal, 2048, NULL, "Error_Task");`
