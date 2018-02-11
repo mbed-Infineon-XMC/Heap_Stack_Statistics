@@ -15,10 +15,13 @@ Example Description:
 * Stack overflow
 Set the following define to simulate an stack overflow:<br />
 `#define STACK_ERROR`
-
+Every 4 seconds 500 bytes more are allocated from the task stack memory. Every Task has a default stack size from 4096 byte.
+If the task increase this value a kernel error message is printet over the STDIO UART. 
+If a runtime error occurs mbed-os enables the Light of Death to let you know that an error has occured.
 * Heap overflow
 Remove the following define to simulate an heap overflow:<br />
 `//#define STACK_ERROR`
+In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory availabe malloc() retuns a NULL pointer.
 
 ## Step 1: Download mbed CLI
 
