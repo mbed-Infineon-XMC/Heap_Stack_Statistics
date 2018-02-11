@@ -1,6 +1,6 @@
 # Heap Stack Statistics Ecample
 
-Heap and stack overflows are a common problem when developping embedded system sofware with an RTOS.
+Heap and stack overflows are a common problem when developing  embedded system software with an RTOS.
 The following example shows how you can monitor heap and stack size during the runtime of the system.
 
 Add the following compile flags to enable heap and stack statistics to your debug build:<br />
@@ -16,12 +16,12 @@ Example Description:
 Set the following define to simulate an stack overflow:<br />
 `#define STACK_ERROR`<br />
 Every 4 seconds 500 bytes more are allocated from the task stack memory. Every Task has a default stack size from 4096 byte.
-If the task increase this value a kernel error message is printet over the STDIO UART. 
-If a runtime error occurs mbed-os enables the Light of Death to let you know that an error has occured.
+If the task increase this value a kernel error message is printed over the STDIO UART. 
+If a runtime error occurs mbed-os enables the Light of Death to let you know that an error has occurred.
 * Heap overflow<br />
 Remove the following define to simulate an heap overflow:<br />
 `//#define STACK_ERROR`<br />
-In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory availabe malloc() retuns a NULL pointer.
+In this example every 2 seconds a block of 3000 bytes is allocated from the heap memory. If there is no free heap memory available  malloc() returns a NULL pointer.
 
 ## Step 1: Download mbed CLI
 
